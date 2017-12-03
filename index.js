@@ -31,7 +31,7 @@ driver.get('http://www.facebook.com/')
                 //start swiping
                 .then(() => { 
                   /* swipe 45000 cards */
-                  for (var i = 0; i < 45000; i++) {
+                  for (var i = 0; i < 5000; i++) {
                     //wait till first card is shown
                     driver.wait(until.elementLocated(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div/div/div/div[1]/div[1]/div/div[3]/div[5]')), 120000)
                       
