@@ -21,9 +21,9 @@ let driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build(
 
 
 async function moveToNextCard () {
-  const closeProfile = await driver.actions().sendKeys(webdriver.Key.ARROW_DOWN).perform();
-  const swipeLeft = await driver.findElement(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div/div/div/div[1]/div[2]/button[2]')).click();
-  const ensureCardExit = await driver.actions().sendKeys(webdriver.Key.ESCAPE).perform();
+  let closeProfile = await driver.actions().sendKeys(webdriver.Key.ARROW_DOWN).perform();
+  let swipeLeft = await driver.findElement(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[2]/button[2]')).click();
+  let ensureCardExit = await driver.actions().sendKeys(webdriver.Key.ESCAPE).perform();
 }
 
 
@@ -52,14 +52,14 @@ async function swipeCardsFunction (numberOfCards) {
 }
 
 async function scrape () {
-  const goToFacebook = await driver.get('http://www.facebook.com/');
-  const typeFacebookEmail = await driver.findElement(By.name('email')).sendKeys(secret.email);
-  const typeFacebookPassword = await driver.findElement(By.name('pass')).sendKeys(secret.password);
-  const clickFacebookLoginButton = await driver.findElement(By.id('loginbutton')).click();
-  const goToTinder = await driver.get('http://www.tinder.com/');
-  const clickTinderLoginButton = await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div[1]/div/div[3]/button[1]')), 120000);
-  const clickOpenCardButton = driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div[1]/div/div[3]/button[1]')).click();
-  const swipeCards = await swipeCardsFunction(300);
+  let goToFacebook = await driver.get('http://www.facebook.com/');
+  let typeFacebookEmail = await driver.findElement(By.name('email')).sendKeys(secret.email);
+  let typeFacebookPassword = await driver.findElement(By.name('pass')).sendKeys(secret.password);
+  let clickFacebookLoginButton = await driver.findElement(By.id('loginbutton')).click();
+  let goToTinder = await driver.get('http://www.tinder.com/');
+  let clickTinderLoginButton = await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div[1]/div/div[3]/button[1]')), 120000);
+  let clickOpenCardButton = driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div[1]/div/div[3]/button[1]')).click();
+  let swipeCards = await swipeCardsFunction(300);
 }
 
 scrape();
