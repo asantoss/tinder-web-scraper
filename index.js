@@ -19,7 +19,6 @@ let chromeOptions = {
 chromeCapabilities.set('chromeOptions', chromeOptions);
 let driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
 
-
 async function moveToNextCard () {
   let closeProfile = await driver.actions().sendKeys(webdriver.Key.ARROW_DOWN).perform();
   // let swipeLeft = await driver.findElement(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[2]/button[2]')).click();
@@ -58,8 +57,8 @@ async function scrape () {
   let typeFacebookPassword = await driver.findElement(By.name('pass')).sendKeys(secret.password);
   let clickLoginButton = await driver.findElement(By.id('loginbutton')).click();
   let goToTinder = await driver.get('http://www.tinder.com/');
-  let waitForLoginPopup = await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/button[1]')), 120000);
-  let clickLoginViaFacebook = driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/button[1]')).click();
+  let waitForLoginPopup = await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[1]/button')), 120000);
+  let clickLoginViaFacebook = driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[1]/button')).click();
   let swipeCards = await swipeCardsFunction(5000);
 }
 
