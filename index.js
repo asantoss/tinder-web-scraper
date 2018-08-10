@@ -7,19 +7,19 @@ const https = require('https');
 const fs = require('fs');
 
 let webdriver = require('selenium-webdriver'),
-By = webdriver.By,
-until = webdriver.until;
+  By = webdriver.By,
+  until = webdriver.until;
 
 let chromeCapabilities = webdriver.Capabilities.chrome();
 //setting chrome options to start the browser with notifications disabled
 let chromeOptions = {
-    'args': ['--disable-notifications']
+  'args': ['--disable-notifications']
 };
 
 chromeCapabilities.set('chromeOptions', chromeOptions);
 let driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
 
-async function moveToNextCard () {
+async function moveToNextCard() {
   let closeProfile = await driver.actions().sendKeys(webdriver.Key.ARROW_DOWN).perform();
   // let swipeLeft = await driver.findElement(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[2]/button[2]')).click();
   let swipeRight = await driver.findElement(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[2]/button[4]')).click();
@@ -39,7 +39,7 @@ async function moveToNextCard () {
 //   }
 // }
 
-async function swipeCardsFunction (numberOfCards) {
+async function swipeCardsFunction(numberOfCards) {
   for (let i = 0; i < numberOfCards; i++) {
     let waitTillCardShows = await driver.wait(until.elementLocated(By.xpath('//*[@id="content"]/div/span/div/div[1]/div/main/div/div/div/div[1]/div[1]/div/div[3]/div[5]')), 120000);
     // let openProfile = await driver.actions().sendKeys(webdriver.Key.ARROW_UP).perform();
@@ -51,15 +51,19 @@ async function swipeCardsFunction (numberOfCards) {
   }
 }
 
-async function scrape () {
-  let goToFacebook = await driver.get('http://www.facebook.com/');
-  let typeFacebookEmail = await driver.findElement(By.name('email')).sendKeys(secret.email);
-  let typeFacebookPassword = await driver.findElement(By.name('pass')).sendKeys(secret.password);
-  let clickLoginButton = await driver.findElement(By.id('loginbutton')).click();
-  let goToTinder = await driver.get('http://www.tinder.com/');
-  let waitForLoginPopup = await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[1]/button')), 120000);
-  let clickLoginViaFacebook = driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[1]/button')).click();
-  let swipeCards = await swipeCardsFunction(5000);
+async function scrape() {
+  try {
+    let goToFacebook = await driver.get('http://www.facebook.com/');
+    let typeFacebookEmail = await driver.findElement(By.name('email')).sendKeys(secret.email);
+    let typeFacebookPassword = await driver.findElement(By.name('pass')).sendKeys(secret.password);
+    let clickLoginButton = await driver.findElement(By.id('loginbutton')).click();
+    let goToTinder = await driver.get('http://www.tinder.com/');
+    let waitForLoginPopup = await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[1]/button')), 120000);
+    let clickLoginViaFacebook = driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[1]/button')).click();
+    let swipeCards = await swipeCardsFunction(5000);
+  } catch (err) {
+    console.log('error running scraper: ', err);
+  }
 }
 
 scrape();
