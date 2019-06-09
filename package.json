@@ -18,22 +18,6 @@
   },
   "homepage": "https://github.com/jaafarskafi1/tinder-web-scraper#readme",
   "dependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-latest": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "bluebird": "^3.5.1",
-    "body-parser": "^1.18.2",
-    "celery-man": "0.0.2",
-    "cors": "^2.8.4",
-    "express": "^4.16.2",
-    "fs-extra": "^4.0.2",
-    "nodemon": "^1.12.1",
-    "path": "^0.12.7",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
     "selenium-webdriver": "^3.6.0"
   }
 }
