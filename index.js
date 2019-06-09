@@ -16,6 +16,7 @@ let driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build(
 async function moveToNextCard() {
   try {
     await driver.actions().sendKeys(webdriver.Key.ARROW_DOWN).perform();
+    // set swiping direction (currently set to swipe right)
     await driver.actions().sendKeys(webdriver.Key.ARROW_RIGHT).perform();
     await driver.actions().sendKeys(webdriver.Key.ESCAPE).perform();
     await timeout(100)
