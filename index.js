@@ -13,11 +13,22 @@ let chromeOptions = {
 chromeCapabilities.set('chromeOptions', chromeOptions);
 let driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
 
-async function moveToNextCard() {
+async function moveToNextCard(profile) {
   try {
     await driver.actions().sendKeys(webdriver.Key.ARROW_DOWN).perform();
     // set swiping direction (currently set to swipe right)
     await driver.actions().sendKeys(webdriver.Key.ARROW_RIGHT).perform();
+    try {
+      const match = await drive.findElement(By.className('itsAMatch')).getText()
+      console.log(match)
+      if (match.length() > 0) {
+        profile.profile.match = true
+        console.log('Matched')
+      } else {
+      }
+    } catch{
+      profile.profile.match = false
+    }
     await driver.actions().sendKeys(webdriver.Key.ESCAPE).perform();
     await setTimeout(() => { }, 500)
   } catch (err) {
@@ -30,9 +41,29 @@ async function swipeCards(numberOfCards) {
     await driver.wait(until.elementLocated(By.xpath('//*[@id="content"]/span/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[1]/div/div')), 120000);
     await driver.actions().sendKeys(webdriver.Key.ARROW_UP).perform();
     await driver.wait(until.elementLocated(By.className('profileCard__card')))
-    const profile = await driver.findElement(By.className('profileCard__card')).getText()
+    var profileHeader = await driver.findElement(By.className('profileCard__header')).getText()
+    profileHeader = profileHeader.split('\n')
+    const profile = {
+      'name': profileHeader[0],
+      'age': profileHeader[1],
+      'Education': profileHeader[2],
+      'profile': {
+      }
+    }
+    try {
+      const bio = await driver.findElement(By.xpath('//*[@id="content"]/span/div/div[1]/div/div/main/div/div/div[1]/div/div[2]/div[2]/div')).getText()
+      profile.profile.bio = bio
+    } catch{
+      console.log(`No bio found`)
+    } try {
+      const anthem = await driver.findElement(By.xpath('//*[@id="content"]/span/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[2]/div[3]/div/div[1]')).getText()
+      profile.profile.anthem = anthem
+    } catch{
+      console.log('No anthem found')
+    }
+
     await console.log(profile)
-    await moveToNextCard();
+    await moveToNextCard(profile);
   }
 }
 
@@ -45,7 +76,7 @@ async function scrape() {
     await driver.get('https://tinder.com/?lang=en');
     await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[2]/button')), 120000);
     await driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[2]/button')).click();
-    await swipeCards(50000);
+    await swipeCards(5);
     driver.quit();
   } catch (err) {
     console.log('error running scraper: ', err);
