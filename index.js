@@ -19,7 +19,7 @@ async function moveToNextCard() {
     // set swiping direction (currently set to swipe right)
     await driver.actions().sendKeys(webdriver.Key.ARROW_RIGHT).perform();
     await driver.actions().sendKeys(webdriver.Key.ESCAPE).perform();
-    await timeout(100)
+    await setTimeout(() => { }, 500)
   } catch (err) {
     console.log(err);
   }
@@ -28,6 +28,10 @@ async function moveToNextCard() {
 async function swipeCards(numberOfCards) {
   for (let i = 0; i < numberOfCards; i++) {
     await driver.wait(until.elementLocated(By.xpath('//*[@id="content"]/span/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[1]/div/div')), 120000);
+    await driver.actions().sendKeys(webdriver.Key.ARROW_UP).perform();
+    await driver.wait(until.elementLocated(By.className('profileCard__card')))
+    const profile = await driver.findElement(By.className('profileCard__card')).getText()
+    await console.log(profile)
     await moveToNextCard();
   }
 }
@@ -40,12 +44,14 @@ async function scrape() {
     await driver.findElement(By.id('loginbutton')).click();
     await driver.get('https://tinder.com/?lang=en');
     await driver.wait(until.elementLocated(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[2]/button')), 120000);
-    driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[2]/button')).click();
-    await swipeCards(50000000);
+    await driver.findElement(By.xpath('//*[@id="modal-manager"]/div/div/div[2]/div/div[3]/div[2]/button')).click();
+    await swipeCards(50000);
     driver.quit();
   } catch (err) {
     console.log('error running scraper: ', err);
   }
 }
+
+
 
 scrape();
